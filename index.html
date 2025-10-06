@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reload DayZ — Servidor PVP</title>
+  <meta name="description" content="Reload DayZ — PVE / PVP / EVENTOS / MISIONES / IA — IP 5.226.141.94:2491" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--accent:#e11d48}
+    .smoke{pointer-events:none;position:absolute;inset:0;background-image:radial-gradient(circle at 20% 10%, rgba(255,255,255,0.02), transparent 10%), radial-gradient(circle at 80% 90%, rgba(255,255,255,0.02), transparent 10%);mix-blend-mode:overlay;opacity:.6}
+    .bg-chernaurus{background-size:cover;background-position:center;background-repeat:no-repeat;background-image: url('assets/chernaurus-bg.jpg');}
+    .glass{backdrop-filter: blur(6px); background: linear-gradient(90deg, rgba(17,24,39,0.6), rgba(6,8,11,0.5));}
+  </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100 antialiased">
+  <div class="relative bg-chernaurus min-h-screen flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="absolute inset-0 smoke"></div>
+    <main class="z-10 w-full max-w-5xl mx-auto px-6 py-16 text-center">
+      <img src="assets/logo.png" alt="Reload DayZ" class="mx-auto h-40 mb-6" />
+      <h1 class="text-5xl font-extrabold mb-4">Reload DayZ</h1>
+      <p class="text-lg text-gray-300 mb-6">🎮 PVE / PVP / EVENTOS / MISIONES / IA<br>🌐 IP: 5.226.141.94 — Puerto: 2491<br>💰 Sistema de puntos en Discord<br>🎟️ Sorteos semanales</p>
+      <a href="https://discord.gg/D523CsurUa" target="_blank" rel="noopener" class="inline-block px-6 py-3 bg-[#5865F2] text-white rounded-lg font-semibold hover:brightness-110 transition">Entrar al Discord</a>
+    </main>
+    <footer class="absolute bottom-4 left-0 right-0 text-center text-sm text-gray-400">© Reload DayZ — Hecho para la comunidad</footer>
+  </div>
+</body>
+</html>
