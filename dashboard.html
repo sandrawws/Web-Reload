@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — Reload DayZ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>.glass{backdrop-filter: blur(6px); background: linear-gradient(90deg, rgba(17,24,39,0.6), rgba(6,8,11,0.5));}</style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100 antialiased">
+  <div class="min-h-screen flex items-center justify-center p-6">
+    <div id="loginBox" class="w-full max-w-md p-6 rounded-xl glass border border-white/6">
+      <h2 class="text-2xl font-bold mb-4">Acceso al Dashboard</h2>
+      <p class="text-sm text-gray-300 mb-4">Introduce la contraseña para editar la web.</p>
+      <input id="pwd" type="password" placeholder="Contraseña" class="w-full p-3 rounded bg-black/40 mb-4" />
+      <button id="loginBtn" class="w-full px-4 py-3 bg-amber-500 text-black rounded font-semibold">Entrar</button>
+      <p class="text-xs text-gray-400 mt-3">Autenticación local (protegido en el navegador). Contraseña: <strong>Reload1108</strong></p>
+    </div>
+
+    <div id="panel" class="hidden w-full max-w-4xl p-6 rounded-xl glass border border-white/6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold">Panel de edición — Reload</h2>
+        <div>
+          <button id="logoutBtn" class="px-3 py-2 bg-white/6 rounded">Salir</button>
+        </div>
+      </div>
+
+      <form id="editForm" class="space-y-4">
+        <div>
+          <label class="text-sm text-gray-300">Título principal</label>
+          <input id="siteTitle" class="w-full p-3 rounded bg-black/40" />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm text-gray-300">IP</label>
+            <input id="siteIP" class="w-full p-3 rounded bg-black/40" />
+          </div>
+          <div>
+            <label class="text-sm text-gray-300">Puerto</label>
+            <input id="sitePort" class="w-full p-3 rounded bg-black/40" />
+          </div>
+        </div>
+        <div>
+          <label class="text-sm text-gray-300">Descripción / Subtítulo</label>
+          <textarea id="siteDesc" class="w-full p-3 rounded bg-black/40" rows="3"></textarea>
+        </div>
+        <div>
+          <label class="text-sm text-gray-300">Enlace Discord</label>
+          <input id="siteDiscord" class="w-full p-3 rounded bg-black/40" />
+        </div>
+        <div>
+          <label class="text-sm text-gray-300">Precio VIP (EUR)</label>
+          <input id="vipPrice" class="w-full p-3 rounded bg-black/40" />
+        </div>
+        <div>
+          <label class="text-sm text-gray-300">Beneficios VIP (separados por | )</label>
+          <textarea id="vipBenefits" class="w-full p-3 rounded bg-black/40" rows="4"></textarea>
+        </div>
+
+        <div class="flex gap-2">
+          <button type="button" id="saveBtn" class="px-4 py-2 bg-green-600 rounded">Guardar cambios</button>
+          <button type="button" id="resetBtn" class="px-4 py-2 bg-red-600 rounded">Resetear</button>
+        </div>
+      </form>
+
+      <div class="mt-6 text-sm text-gray-400">
+        Los cambios se guardan en tu navegador (localStorage) y se aplican a la página pública cuando reemplaces el HTML en tu repo. Esta solución funciona sin servidor.
+      </div>
+    </div>
+  </div>
+
+<script>
+const PASSWORD = 'Reload1108';
+
+const loginBox = document.getElementById('loginBox');
+const panel = document.getElementById('panel');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+
+function showPanel(){
+  loginBox.classList.add('hidden');
+  panel.classList.remove('hidden');
+  loadValues();
+}
+
+function showLogin(){
+  loginBox.classList.remove('hidden');
+  panel.classList.add('hidden');
+}
+
+loginBtn.addEventListener('click', ()=>{
+  const v = document.getElementById('pwd').value;
+  if(v === PASSWORD){
+    localStorage.setItem('reload_auth','true');
+    showPanel();
+  } else {
+    alert('Contraseña incorrecta');
+  }
+});
+
+logoutBtn.addEventListener('click', ()=>{
+  localStorage.removeItem('reload_auth');
+  showLogin();
+});
+
+// Autologin si ya autenticado
+if(localStorage.getItem('reload_auth') === 'true'){
+  showPanel();
+}
+
+// Guardar/recuperar valores
+function loadValues(){
+  document.getElementById('siteTitle').value = localStorage.getItem('reload_title') || 'Reload DayZ';
+  document.getElementById('siteIP').value = localStorage.getItem('reload_ip') || '5.226.141.94';
+  document.getElementById('sitePort').value = localStorage.getItem('reload_port') || '2491';
+  document.getElementById('siteDesc').value = localStorage.getItem('reload_desc') || 'PVE / PVP / EVENTOS / MISIONES / IA — Sumérgete en Chernarus y sobrevive a cualquier cosa.';
+  document.getElementById('siteDiscord').value = localStorage.getItem('reload_discord') || 'https://discord.gg/D523CsurUa';
+  document.getElementById('vipPrice').value = localStorage.getItem('reload_vip_price') || '15';
+  document.getElementById('vipBenefits').value = localStorage.getItem('reload_vip_benefits') || '🔹 Acceso al Mercado VIP de skins exclusivas.|🔹 Rol VIP en Discord con nombre destacado y acceso a canales privados.|🔹 Multiplicador x2 de puntos en Discord (sube el doble de rápido).|🔹 2000 puntos de bienvenida al convertirte en VIP.|🔹 Prioridad en la cola de conexión al servidor.';
+}
+
+document.getElementById('saveBtn').addEventListener('click', ()=>{
+  localStorage.setItem('reload_title', document.getElementById('siteTitle').value);
+  localStorage.setItem('reload_ip', document.getElementById('siteIP').value);
+  localStorage.setItem('reload_port', document.getElementById('sitePort').value);
+  localStorage.setItem('reload_desc', document.getElementById('siteDesc').value);
+  localStorage.setItem('reload_discord', document.getElementById('siteDiscord').value);
+  localStorage.setItem('reload_vip_price', document.getElementById('vipPrice').value);
+  localStorage.setItem('reload_vip_benefits', document.getElementById('vipBenefits').value);
+  alert('Guardado en el navegador. Para publicar cambios, reemplaza el HTML en tu repo con los nuevos valores si quieres que sean permanentes.');
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(confirm('Restablecer valores por defecto?')){
+    localStorage.removeItem('reload_title');
+    localStorage.removeItem('reload_ip');
+    localStorage.removeItem('reload_port');
+    localStorage.removeItem('reload_desc');
+    localStorage.removeItem('reload_discord');
+    localStorage.removeItem('reload_vip_price');
+    localStorage.removeItem('reload_vip_benefits');
+    loadValues();
+  }
+});
+</script>
+</body>
+</html>
